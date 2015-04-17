@@ -4,18 +4,17 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-    // Timing constants
-    private static final int UI_UPDATE_FREQUENCY = 20;
-    private static final int MS_PER_SEC = 1000;
-    private static final int UI_UPDATE_PERIOD = MS_PER_SEC / UI_UPDATE_FREQUENCY;
     // Main application modules
     private Tuner tuner;
     private Interpreter interpreter;
     // UI
     private TextView status;
+    private Button updateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,6 @@ public class MainActivity extends Activity {
         initUi();
         tuner = new Tuner();
         interpreter = new Interpreter(tuner);
-        startUiUpdateLoop();
     }
 
     private void updateUi() {
@@ -32,19 +30,15 @@ public class MainActivity extends Activity {
         status.setText(analysis.toString());
     }
 
-    private void startUiUpdateLoop() {
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                updateUi();
-                handler.postDelayed(this, UI_UPDATE_PERIOD);
-            }
-        });
-    }
-
     private void initUi() {
         status = (TextView) findViewById(R.id.main_status);
+        updateButton = (Button) findViewById(R.id.main_update_button);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateUi();
+            }
+        });
     }
 
     @Override

@@ -21,6 +21,7 @@ public class Interpreter {
     public Interpreter(final Tuner tuner) {
         this.tuner = tuner;
         for(int i=0; i<pitches.length; i++) pitches[i] = new ArrayList<Tuner.Pitch>();
+        // Start interpreter loop
         start();
     }
 
@@ -31,19 +32,15 @@ public class Interpreter {
             public void run() {
                 Looper.prepare();
                 handler = new Handler();
-                tick();
-                Looper.loop();
-            }
-
-            private void tick() {
-                handler.postDelayed(new Runnable() {
+                handler.post(new Runnable() {
                     @Override
                     public void run() {
                         Tuner.Pitch currentPitch = tuner.getCurrentPitch();
                         pitches[currentPitch.getNote()%12].add(currentPitch);
-                        tick();
+                        handler.postDelayed(this, POLL_PERIOD);
                     }
-                }, POLL_PERIOD);
+                });
+                Looper.loop();
             }
         }, "Interpreter Thread").start();
     }
