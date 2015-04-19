@@ -21,11 +21,10 @@ public class Interpreter {
     public Interpreter(final Tuner tuner) {
         this.tuner = tuner;
         for(int i=0; i<pitches.length; i++) pitches[i] = new ArrayList<Tuner.Pitch>();
-        // Start interpreter loop
-        start();
     }
 
-    private void start() {
+    /* start interpreter loop */
+    public void start() {
         new Thread(new Runnable() {
             private Handler handler;
             @Override

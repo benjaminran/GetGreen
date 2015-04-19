@@ -22,13 +22,29 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         initUi();
         tuner = new Tuner();
+        tuner.start();
         interpreter = new Interpreter(tuner);
+        interpreter.start();
     }
 
     private void updateUi() {
         Interpreter.Analysis analysis = interpreter.getAnalysis();
         status.setText(analysis.toString());
+        //updateGraph();
     }
+
+    /*private void updateGraph(){
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        DataPoint[] data = new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        };
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(data);
+        graph.addSeries(series);
+    }*/
 
     private void initUi() {
         status = (TextView) findViewById(R.id.main_status);
