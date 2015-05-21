@@ -11,16 +11,15 @@ import java.util.ArrayList;
 public class Interpreter {
     // Timing constants
     private static final int POLL_FREQUENCY = 20;
-    private static final int MS_PER_SEC = 1000;
-    private static final int POLL_PERIOD = MS_PER_SEC / POLL_FREQUENCY;
+    private static final int POLL_PERIOD = 1000 / POLL_FREQUENCY;
     // Main application modules
     private PitchDetector pitchDetector;
     // Data set
-    private ArrayList<PitchDetector.Pitch>[] pitches = new ArrayList[12];
+    private ArrayList<Pitch>[] pitches = new ArrayList[12];
 
     public Interpreter(PitchDetector pitchDetector) {
         this.pitchDetector = pitchDetector;
-        for(int i=0; i<pitches.length; i++) pitches[i] = new ArrayList<PitchDetector.Pitch>();
+        for(int i=0; i<pitches.length; i++) pitches[i] = new ArrayList<Pitch>();
     }
 
     /* start interpreter loop */
@@ -34,7 +33,7 @@ public class Interpreter {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        PitchDetector.Pitch currentPitch = pitchDetector.getCurrentPitch();
+                        Pitch currentPitch = pitchDetector.getCurrentPitch();
                         if(currentPitch!=null) {
                             pitches[currentPitch.getNote()%12].add(currentPitch); // do not update data set if not pitch is detected
                             // TODO: update analysis in loop then poll from main thread

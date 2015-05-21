@@ -18,11 +18,15 @@ import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
 public class MainActivity extends Activity {
+    // UI Update Timing constants
+    private static final int UPDATE_FREQUENCY = 20;
+    private static final int UPDATE_PERIOD = 1000 / UPDATE_FREQUENCY;
     // Main application modules
     private PitchDetector pitchDetector;
     private Tuner tuner;
     private Interpreter interpreter;
     // UI
+    private TunerView tunerView;
     private TextView analysis;
     private TextView debugStatus;
     private Button updateButton;
@@ -32,25 +36,30 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initUi();
-/*        tuner = new Tuner((GraphView) findViewById(R.id.graph));
-        tuner.start();*/
         pitchDetector = new PitchDetector();
         interpreter = new Interpreter(pitchDetector);
         interpreter.start();
+        startUiUpdateLoop();
+    }
+
+    private void startUiUpdateLoop() {
         final Handler handler = new Handler();
-        /*handler.post(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                if(pitchDetector.getCurrentPitch()!=null) status.setText(""+pitchDetector.getCurrentPitch().toString());
-                handler.postDelayed(this, 100);
+                updateUi();
+                handler.postDelayed(this, UPDATE_PERIOD);
             }
-        });*/
+        });
     }
 
     private void updateUi() { // TODO: graph analysis (~bar graph)
         analysis.setText(interpreter.getAnalysis().toString());
-        //tuner.graph();
-        if(pitchDetector.getCurrentPitch()!=null) debugStatus.setText(""+pitchDetector.getCurrentPitch().toString());
+        Pitch pitch = pitchDetector.getCurrentPitch();
+        if(pitch!=null) {
+            debugStatus.setText(""+pitch.toString());
+            tunerView.displayPitch(pitch);
+        }
         else debugStatus.setText("No pitch detected");
     }
 
@@ -64,6 +73,7 @@ public class MainActivity extends Activity {
                 updateUi();
             }
         });
+        tunerView = (TunerView) findViewById(R.id.tuner_view);
     }
 
     @Override
