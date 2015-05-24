@@ -29,7 +29,6 @@ public class MainActivity extends Activity {
     private TunerView tunerView;
     private TextView analysis;
     private TextView debugStatus;
-    private Button updateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +65,6 @@ public class MainActivity extends Activity {
     private void initUi() {
         analysis = (TextView) findViewById(R.id.analysis);
         debugStatus = (TextView) findViewById(R.id.debug_status);
-        updateButton = (Button) findViewById(R.id.main_update_button);
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateUi();
-            }
-        });
         tunerView = (TunerView) findViewById(R.id.tuner_view);
     }
 

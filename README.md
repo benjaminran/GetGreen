@@ -6,17 +6,18 @@ An Android application to detect patterns in a musician's intonation on his or h
 * Main Activity
   * Tuner module
     * tuner loop: (Tuner thread)
-      * fill buffer with PCM data from mic
-      * get input signal frequency via autocorrelation
-      * convert frequency to pitch and store in `currentPitch`
+      * use TarsosDSP mechanism for getting mic data and running YIN PDA to get frequency
+      * filter frequency to remove noise
+      * convert filtered frequency to pitch and store in `currentPitch`
     * `currentPitch` variable can be read from other modules
   * Interpreter module
     * interpreter loop: (Interpreter thread)
       * insert `currentPitch` from Tuner into data set
         * think more on this
-    * when `getAnalysis` called, recognize patterns in pitches and return statistics
+      * maintain analysis  based on data set
+      * 'currentAnalysis' variable can be read from other modules
   * Display component
-    * get Analysis from interpreter and display somehow
+    * on display loop, get Analysis from interpreter and display somehow
 
 
 ### Notes
@@ -26,21 +27,22 @@ Implementation
 * Main Activity
   * Tuner module
     * tuner loop: (Tuner thread)
-      * fill buffer with PCM data from mic
-      * get input signal frequency via autocorrelation
-      * convert frequency to pitch and store in `currentPitch`
+      * TarsosDSP handles pitch detection
+      * filter frequencies (think more here)
+        * high pass filter on non-null readings
+        * require several non-null (no pitch detected) readings before affecting the `currentPitch`
+      * convert filtered frequency to pitch and store in `currentPitch`
     * `currentPitch` variable can be read from other modules
   * Interpreter module
     * interpreter loop: (Interpreter thread)
       * insert `currentPitch` from Tuner into data set
         * think more on this
-    * when `getAnalysis` called, recognize patterns in pitches and return statistics
+    * maintain an analysis of patterns in pitches and return statistics
       * could have a currentAnalysis field analagous to Tuner's current pitch--better for realtime updates to UI
   * Display component
     * get Analysis from interpreter and display somehow
       * histogram-like display per note
 
-Find a PDA library!!!
 
 ### Features to Implement
 * overall display (display full analysis) along with instantaneous display (currentPitch)

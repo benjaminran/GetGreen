@@ -30,16 +30,8 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
 
-    <Button
-        android:id="@+id/main_update_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Analyze"/>
-
     <com.bran.smarttuner.TunerView
         android:id="@+id/tuner_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        custom:arc_progress="55"/>
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -28,6 +28,6 @@ public class Pitch {
     public int getNote() { return note; }
     public int getCentsSharp() { return centsSharp; }
 
-    public String toString() { return String.format("Note: %d; Cents Sharp: %d%n", note, centsSharp); }
+    public String toString() { return String.format("Note: %d; Cents Sharp: %d", note, centsSharp); }
     public String getNoteName() { return NOTE_NAMES[note%12]; }
 }
