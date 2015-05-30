@@ -29,7 +29,7 @@ Implementation
     * tuner loop: (Tuner thread)
       * TarsosDSP handles pitch detection
       * filter frequencies (think more here)
-        * high pass filter on non-null readings
+        * smoothing filter on non-null readings (this needs work--shouldn't cause false readings when note changes)
         * require several non-null (no pitch detected) readings before affecting the `currentPitch`
       * convert filtered frequency to pitch and store in `currentPitch`
     * `currentPitch` variable can be read from other modules
