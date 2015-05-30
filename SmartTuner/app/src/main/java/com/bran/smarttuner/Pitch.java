@@ -29,5 +29,9 @@ public class Pitch {
     public int getCentsSharp() { return centsSharp; }
 
     public String toString() { return String.format("Note: %d; Cents Sharp: %d", note, centsSharp); }
-    public String getNoteName() { return NOTE_NAMES[note%12]; }
+    public String getNoteName() { return Pitch.getNoteName(note); }
+    public int getOctaveNumber() { return Pitch.getOctaveNumber(note); }
+
+    public static String getNoteName(int noteNumber) { return NOTE_NAMES[noteNumber%12]; }
+    public static int getOctaveNumber(int noteNumber) { return ((int) noteNumber / 12) - 1; }
 }

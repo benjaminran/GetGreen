@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -85,6 +86,7 @@ public class MainActivity extends Activity {
     }
 
     private void updateUi() { // TODO: graph analysis (~bar graph)
+        if(paused) return;
         analysis.setText(interpreter.getAnalysis().toString());
         Pitch pitch = pitchDetector.getCurrentPitch();
         if(pitch!=null) {
@@ -97,7 +99,6 @@ public class MainActivity extends Activity {
     }
 
     private void updateGraph() {
-        if(paused) return;
         filteredFrequencies.appendData(new DataPoint(x, pitchDetector.getFilteredFrequency()), true, 1000);
         rawFrequencies.appendData(new DataPoint(x, pitchDetector.getRawfrequency()), true, 1000);
         x++;
@@ -106,6 +107,7 @@ public class MainActivity extends Activity {
     private void initUi() {
         graph = (GraphView) findViewById(R.id.graph);
         analysis = (TextView) findViewById(R.id.analysis);
+        analysis.setMovementMethod(new ScrollingMovementMethod());
         debugStatus = (TextView) findViewById(R.id.debug_status);
         tunerView = (TunerView) findViewById(R.id.tuner_view);
         graphButton = (Button) findViewById(R.id.graph_btn);
@@ -113,7 +115,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 paused = !paused;
-                graphButton.setText(paused ? "Start Graphing" : "Pause Graphing");
+                graphButton.setText(paused ? "Resume" : "Pause");
             }
         });
     }

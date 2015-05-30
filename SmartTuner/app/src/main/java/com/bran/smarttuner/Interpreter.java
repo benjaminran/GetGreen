@@ -15,7 +15,10 @@ public class Interpreter {
     // Main application modules
     private PitchDetector pitchDetector;
     // Data set
-    private ArrayList<Pitch>[] pitches = new ArrayList[12];
+    private static final int MIN_MIDI_NUMBER = 21; // Lowest note: A0
+    private static final int MAX_MIDI_NUMBER = 108; // Highest note: C8
+    private ArrayList<Pitch>[] pitches = new ArrayList[MAX_MIDI_NUMBER+1-MIN_MIDI_NUMBER];
+
 
     public Interpreter(PitchDetector pitchDetector) {
         this.pitchDetector = pitchDetector;
@@ -35,7 +38,10 @@ public class Interpreter {
                     public void run() {
                         Pitch currentPitch = pitchDetector.getCurrentPitch();
                         if(currentPitch!=null) {
-                            pitches[currentPitch.getNote()%12].add(currentPitch); // do not update data set if not pitch is detected
+                            int note = currentPitch.getNote();
+                            if(note>=MIN_MIDI_NUMBER && note<=MAX_MIDI_NUMBER) { // TODO: better data collection scheme
+                                pitches[note-MIN_MIDI_NUMBER].add(currentPitch); // do not update data set if not pitch is detected
+                            }
                             // TODO: update analysis in loop then poll from main thread
                         }
                         handler.postDelayed(this, POLL_PERIOD);
@@ -47,21 +53,14 @@ public class Interpreter {
     }
 
     public Analysis getAnalysis() { // TODO: find average and variation in centsSharp of all same-note measurements
-        // analyze data and return something
         Analysis analysis = new Analysis();
-        analysis.text = String.format("C[0]: %d%nC#[1]: %d%nD[2]: %d%nEb[3]: %d%nE[4]: %d%nF[5]: %d%nF#[6]: %d%nG[7]: %d%nG#[8]: %d%nA[9]: %d%nBb[10]: %d%nB[11]: %d%n",
-                pitches[0].size(),
-                pitches[1].size(),
-                pitches[2].size(),
-                pitches[3].size(),
-                pitches[4].size(),
-                pitches[5].size(),
-                pitches[6].size(),
-                pitches[7].size(),
-                pitches[8].size(),
-                pitches[9].size(),
-                pitches[10].size(),
-                pitches[11].size());
+        for(int n=MIN_MIDI_NUMBER; n<=MAX_MIDI_NUMBER; n++) {
+            ArrayList<Pitch> data = pitches[n-MIN_MIDI_NUMBER];
+            String noteName = Pitch.getNoteName(n);
+            int octaveNumber = Pitch.getOctaveNumber(n);
+            int size = data.size();
+            analysis.text += String.format("%s%d: %d%n", noteName, octaveNumber, size);
+        }
         return analysis;
     }
 
