@@ -1,5 +1,6 @@
 package com.bran.smarttuner;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
@@ -8,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
@@ -29,6 +33,12 @@ public class MainActivity extends Activity {
     private TunerView tunerView;
     private TextView analysis;
     private TextView debugStatus;
+    private Button graphButton;
+    private GraphView graph;
+    // Graph-specific fields
+    private LineGraphSeries<DataPoint> rawFrequencies, filteredFrequencies;
+    private int x;
+    private Boolean paused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,8 @@ public class MainActivity extends Activity {
     }
 
     private void startUiUpdateLoop() {
+        prepareGraph();
+        // Start loop
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -52,6 +64,26 @@ public class MainActivity extends Activity {
         });
     }
 
+    private void prepareGraph() {
+        x = 0;
+        paused = false;
+        filteredFrequencies = new LineGraphSeries<DataPoint>();
+        filteredFrequencies.setColor(Color.BLACK);
+        filteredFrequencies.setTitle("Filtered Frequencies");
+        rawFrequencies = new LineGraphSeries<DataPoint>();
+        rawFrequencies.setColor(Color.LTGRAY);
+        rawFrequencies.setTitle("Raw Frequencies");
+        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(40);
+        graph.getViewport().setScrollable(true);
+        graph.getViewport().setScalable(true);
+        graph.addSeries(rawFrequencies);
+        graph.addSeries(filteredFrequencies);
+    }
+
     private void updateUi() { // TODO: graph analysis (~bar graph)
         analysis.setText(interpreter.getAnalysis().toString());
         Pitch pitch = pitchDetector.getCurrentPitch();
@@ -60,12 +92,30 @@ public class MainActivity extends Activity {
             tunerView.displayPitch(pitch);
         }
         else debugStatus.setText("No pitch detected");
+        // Update graph
+        updateGraph();
+    }
+
+    private void updateGraph() {
+        if(paused) return;
+        filteredFrequencies.appendData(new DataPoint(x, pitchDetector.getFilteredFrequency()), true, 1000);
+        rawFrequencies.appendData(new DataPoint(x, pitchDetector.getRawfrequency()), true, 1000);
+        x++;
     }
 
     private void initUi() {
+        graph = (GraphView) findViewById(R.id.graph);
         analysis = (TextView) findViewById(R.id.analysis);
         debugStatus = (TextView) findViewById(R.id.debug_status);
         tunerView = (TunerView) findViewById(R.id.tuner_view);
+        graphButton = (Button) findViewById(R.id.graph_btn);
+        graphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paused = !paused;
+                graphButton.setText(paused ? "Start Graphing" : "Pause Graphing");
+            }
+        });
     }
 
     @Override

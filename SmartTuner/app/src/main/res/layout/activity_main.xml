@@ -15,20 +15,26 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layout_margin="16dp"
         android:id="@+id/graph" />
+
+    <Button android:id="@+id/graph_btn"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Pause Graphing"/>
 
     <TextView
         android:id="@+id/analysis"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="@string/hello_world" />
+        android:text="Analysis text" />
 
     <TextView
         android:id="@+id/debug_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="Debugging status text" />
 
     <com.bran.smarttuner.TunerView
         android:id="@+id/tuner_view"

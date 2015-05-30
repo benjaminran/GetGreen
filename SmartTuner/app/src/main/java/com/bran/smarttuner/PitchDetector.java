@@ -19,56 +19,85 @@ import be.tarsos.dsp.util.PitchConverter;
  */
 public class PitchDetector {
 
-    // Filter configuration and fields
-    private static final int BUFFER_SIZE = 8;
-    private static final int MAX_CONSEC_NULL = 5;
-    private int consecNull;
-    private ArrayBlockingQueue<Float> buffer;
-    private float bufferSum;
-
     // Main component field
     private Pitch currentPitch; // TODO: run through high pass filter to eliminate noise (skip momentary note deviations and average several cent measurements?)
+    // Filter for raw frequencies detected
+    PitchFilter filter;
 
     public PitchDetector() {
-        buffer = new ArrayBlockingQueue<Float>(BUFFER_SIZE);
-        for(int i=0; i<BUFFER_SIZE; i++) buffer.add(0f);
-        bufferSum = 0;
-
-
-
+        filter = new PitchFilter();
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
-
-        PitchDetectionHandler pdh = new PitchDetectionHandler() {
-            @Override
-            public void handlePitch(PitchDetectionResult result, AudioEvent e) {
-                float frequency = result.getPitch();
-                if(frequency==-1) { // no pitch heard
-                    consecNull++;
-                    if(consecNull==MAX_CONSEC_NULL) { // true silence
-                        currentPitch = null;
-                        for(int i=0; i<buffer.size(); i++) buffer.remove(); // flush buffer
-                    }
-                }
-                else { // pitch heard
-                    consecNull = 0;
-                    // calc filtered frequency
-                    int bufferSize = buffer.size();
-                    if(bufferSize==BUFFER_SIZE) {
-                        bufferSum -= buffer.remove();
-                        bufferSize --;
-                    }
-                    bufferSum += frequency;
-                    buffer.add(frequency);
-                    bufferSize++;
-                    float filteredFrequency = bufferSum/bufferSize;
-                    currentPitch = Pitch.fromFrequency(filteredFrequency);
-                }
-            }
-        };
-        AudioProcessor p = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh); // TODO: make more robust
+        AudioProcessor p = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, filter); // TODO: make more robust
         dispatcher.addAudioProcessor(p);
         new Thread(dispatcher,"Audio Dispatcher").start();
     }
 
-    public Pitch getCurrentPitch() { return currentPitch; }
+    public Pitch getCurrentPitch() {
+        return currentPitch;
+    }
+
+    public float getFilteredFrequency() {
+        return filter.getFilteredFrequency();
+    }
+
+    public float getRawfrequency() {
+        return filter.getRawFrequency();
+    }
+
+    /**
+     * Receives raw pitch detection results, applies smoothing filter, and publishes
+     */
+    private class PitchFilter implements PitchDetectionHandler {
+        // Current readings
+        private float filteredFrequency;
+        private float rawFrequency;
+        // Filter configuration and fields
+        private static final int BUFFER_SIZE = 16;
+        private ArrayBlockingQueue<Float> buffer;
+        private float bufferSum;
+        private static final int MAX_CONSEC_NULL = 16;
+        private int consecNull;
+
+        public PitchFilter() {
+            buffer = new ArrayBlockingQueue<Float>(BUFFER_SIZE);
+            for(int i=0; i<BUFFER_SIZE; i++) buffer.add(0f);
+            bufferSum = 0f;
+        }
+
+        @Override
+        public void handlePitch(PitchDetectionResult result, AudioEvent audioEvent) {
+            rawFrequency = result.getPitch();
+            if(rawFrequency==-1) { // no pitch heard
+                consecNull++;
+                if(consecNull==MAX_CONSEC_NULL) { // true silence
+                    currentPitch = null;
+                    // clear buffer
+                    while(buffer.size()!=0) {
+                        buffer.remove();
+                    }
+                    bufferSum = 0f;
+                    filteredFrequency = -1;
+                }
+            }
+            else { // pitch heard
+                consecNull = 0;
+                // calculate filtered frequency
+                if(buffer.size()==BUFFER_SIZE) {
+                    bufferSum -= buffer.remove();
+                }
+                buffer.add(rawFrequency);
+                bufferSum += rawFrequency;
+                filteredFrequency = bufferSum/buffer.size();
+                currentPitch = Pitch.fromFrequency(filteredFrequency);
+            }
+        }
+
+        public float getFilteredFrequency() {
+            return filteredFrequency;
+        }
+
+        public float getRawFrequency() {
+            return rawFrequency;
+        }
+    }
 }
