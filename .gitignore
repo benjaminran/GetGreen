@@ -36,6 +36,7 @@ proguard/
 # Emacs files
 *~
 
-# Keystore
+# Keystore and credentials
 /key
 *.keystore
+gradle.properties
