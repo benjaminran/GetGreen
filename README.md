@@ -20,12 +20,16 @@ An Android application to detect patterns in a musician's intonation on his or h
     * on display loop, get Analysis from interpreter and display somehow
 
 
-### Notes
-This project is intended to be the central repository where I'll aggregate code from past projects that implemented only select components of the final application.
+### Build Process
 
 #### Release APK Signing
-Environment variables INTUNE_KEYSTORE, INTUNE_KEYSTORE_PASSWORD, INTUNE_KEY_ALIAS,
-INTUNE_KEY_PASSWORD are used to access the keystore used for signing the release APK
+Keystore information for signing the release APK is specified in gradle.properties using the keys
+intuneKeystore, intuneKeystorePassword, intuneKeyAlias, andintuneKeyPassword. Builds in environments
+without access to the keystore will not fail but the release APK will be left unsigned.
+
+
+### Notes
+This project is intended to be the central repository where I'll aggregate code from past projects that implemented only select components of the final application.
 
 #### Implementation
 * Main Activity

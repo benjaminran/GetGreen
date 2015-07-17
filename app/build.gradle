@@ -28,6 +28,7 @@ android {
     }
 }
 
+/* Sign Release APK if credentials/keystore available */
 if (project.hasProperty('intuneKeystore') && project.hasProperty('intuneKeystorePassword') && project.hasProperty('intuneKeyAlias') && project.hasProperty('intuneKeyPassword')) {
     android.signingConfigs.release {
         storeFile = file(intuneKeystore)
