@@ -1,4 +1,4 @@
-package com.bran.smarttuner;
+package com.bran.intune;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

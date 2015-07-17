@@ -1,6 +1,5 @@
-package com.bran.smarttuner;
+package com.bran.intune;
 
-import com.bran.smarttuner.Pitch;
 import org.junit.Test;
 
 /**

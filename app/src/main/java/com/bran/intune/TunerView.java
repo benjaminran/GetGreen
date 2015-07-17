@@ -1,4 +1,4 @@
-package com.bran.smarttuner;
+package com.bran.intune;
 
 import android.content.Context;
 import android.text.Html;

@@ -1,8 +1,5 @@
-package com.bran.smarttuner;
+package com.bran.intune;
 
-import android.widget.TextView;
-
-import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import be.tarsos.dsp.AudioDispatcher;
@@ -12,7 +9,6 @@ import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
-import be.tarsos.dsp.util.PitchConverter;
 
 /** TODO: lifecycle management
  * Handles microphone sampling, pitch detection (using YIN algorithm), and filtering then publishes currentPitch.
