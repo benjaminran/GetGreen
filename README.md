@@ -23,7 +23,11 @@ An Android application to detect patterns in a musician's intonation on his or h
 ### Notes
 This project is intended to be the central repository where I'll aggregate code from past projects that implemented only select components of the final application.
 
-Implementation
+#### Release APK Signing
+Environment variables INTUNE_KEYSTORE, INTUNE_KEYSTORE_PASSWORD, INTUNE_KEY_ALIAS,
+INTUNE_KEY_PASSWORD are used to access the keystore used for signing the release APK
+
+#### Implementation
 * Main Activity
   * Tuner module
     * tuner loop: (Tuner thread)
