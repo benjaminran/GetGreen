@@ -20,7 +20,6 @@ public class MainActivity extends Activity {
     private static final int UPDATE_PERIOD = 1000 / UPDATE_FREQUENCY;
     // Main application modules
     private PitchDetector pitchDetector;
-    private Tuner tuner;
     private Interpreter interpreter;
     // UI
     private TunerView tunerView;
@@ -92,7 +91,7 @@ public class MainActivity extends Activity {
 
     private void updateGraph() {
         filteredFrequencies.appendData(new DataPoint(x, pitchDetector.getFilteredFrequency()), true, 1000);
-        rawFrequencies.appendData(new DataPoint(x, pitchDetector.getRawfrequency()), true, 1000);
+        rawFrequencies.appendData(new DataPoint(x, pitchDetector.getRawFrequency()), true, 1000);
         x++;
     }
 

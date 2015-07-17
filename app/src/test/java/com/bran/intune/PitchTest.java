@@ -7,12 +7,15 @@ import org.junit.Test;
  */
 public class PitchTest {
 
+    private static final int ACCURACY_THRESHOLD = 5;
+
+
         @Test
         public void testFromFrequency() throws Exception {
             Pitch pitch = Pitch.fromFrequency(440f);
-            assert(pitch.getOctaveNumber()==5);
-            assert(pitch.getNoteName().equals("C"));
-            assert(pitch.getCentsSharp()==0);
+            assert(pitch.getOctaveNumber()==4);
+            assert(pitch.getNoteName().equals("A"));
+            assert(Math.abs(pitch.getCentsSharp())<ACCURACY_THRESHOLD);
         }
 
         public void testGetNote() throws Exception {
