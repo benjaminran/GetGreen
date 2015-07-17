@@ -11,23 +11,29 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     signingConfigs {
-        /*release {
-            storeFile file(System.getenv("INTUNE_KEYSTORE"))
-            storePassword System.getenv("INTUNE_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("INTUNE_KEY_ALIAS")
-            keyPassword System.getenv("INTUNE_KEY_PASSWORD")
-        }*/
+        release
     }
+
     buildTypes {
         release {
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
 
         }
+    }
+}
+
+if (project.hasProperty('intuneKeystore') && project.hasProperty('intuneKeystorePassword') && project.hasProperty('intuneKeyAlias') && project.hasProperty('intuneKeyPassword')) {
+    android.signingConfigs.release {
+        storeFile = file(intuneKeystore)
+        storePassword = intuneKeystorePassword
+        keyAlias = intuneKeyAlias
+        keyPassword = intuneKeyPassword
     }
 }
 
