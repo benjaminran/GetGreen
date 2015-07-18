@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.bran.smarttuner"
+        applicationId "com.bran.intune"
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
@@ -19,11 +19,11 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-
+            applicationIdSuffix ".debug"
         }
     }
 }
@@ -44,7 +44,8 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.jjoe64:graphview:4.0.1'
-    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:support-v4:22.0.0'
 }
