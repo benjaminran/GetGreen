@@ -1,4 +1,4 @@
-package com.bran.intune;
+package com.bran.intune.tests;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
