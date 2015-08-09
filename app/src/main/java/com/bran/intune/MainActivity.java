@@ -1,6 +1,5 @@
 package com.bran.intune;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -105,7 +104,7 @@ public class MainActivity extends Activity {
         analysis.setMovementMethod(new ScrollingMovementMethod());
         debugStatus = (TextView) findViewById(R.id.debug_status);
         tunerView = (TunerView) findViewById(R.id.tuner_view);
-        graphButton = (Button) findViewById(R.id.graph_btn);
+        graphButton = (Button) findViewById(R.id.graph_button);
         graphButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
