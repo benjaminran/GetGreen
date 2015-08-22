@@ -18,7 +18,7 @@ public class PitchDetector {
     // Main component field
     private Pitch currentPitch; // TODO: run through high pass filter to eliminate noise (skip momentary note deviations and average several cent measurements?)
     // Filter for raw frequencies detected
-    PitchFilter filter;
+    private PitchFilter filter;
 
     public PitchDetector() {
         filter = new PitchFilter();
@@ -29,7 +29,7 @@ public class PitchDetector {
     }
 
     public Pitch getCurrentPitch() {
-        return currentPitch;
+        return filter.getFilteredPitch();
     }
 
     public float getFilteredFrequency() {

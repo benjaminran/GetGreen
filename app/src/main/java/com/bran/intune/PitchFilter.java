@@ -55,6 +55,8 @@ public class PitchFilter implements PitchDetectionHandler {
         }
     }
 
+    public Pitch getFilteredPitch() { return filteredPitch; }
+
     public float getFilteredFrequency() {
         return filteredFrequency;
     }

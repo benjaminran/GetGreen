@@ -1,18 +1,18 @@
 package com.bran.intune;
 
-import android.app.Instrumentation;
 import android.content.Context;
-import android.content.res.Resources;
-import android.media.MediaPlayer;
-import android.os.PowerManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 
+import com.bran.intune.MainActivity;
+import com.bran.intune.R;
+import com.bran.intune.statictests.SinglePitchTest;
+
+import java.io.IOException;
 
 /* http://developer.android.com/training/activity-testing/activity-basic-testing.html */
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -41,10 +41,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     /**
      * Confirms correct initial setup of the activity
      */
-    @MediumTest
+    /*@MediumTest
     public void testPreconditions() {
         assertNotNull("mainActivity is null", mainActivity);
-    }
+    }*/
 
     @MediumTest
     public void testClickMeButton_layout() {
@@ -66,34 +66,5 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         final String expected = "Pause";
         final String actual = graphButton.getText().toString();
         assertEquals(expected, actual);
-    }
-
-    @MediumTest
-    public void testA440() {
-
-        Instrumentation instr = this.getInstrumentation();
-        //final Context context = instr.getContext();
-        Resources res = context.getResources();
-        MediaPlayer mp = new MediaPlayer();
-        mp.setDataSource(context, context.getResources().Raw)
-        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
-                mp.start();
-            }
-        });
-
-
-        MediaPlayer mp = MediaPlayer.create(context, com.bran.intune.debug.test.R.raw.tuningfork440);
-        mp.start();
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-            }
-
-        });
     }
 }
