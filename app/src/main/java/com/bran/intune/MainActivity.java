@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +27,8 @@ public class MainActivity extends Activity {
     private Interpreter interpreter;
     // UI
     private TunerView tunerView;
-    private TextView analysis;
+    private AnalysisView analysisView;
+    private TextView analysisText;
     private TextView debugStatus;
     private Button graphButton;
     private GraphView graph;
@@ -81,13 +83,14 @@ public class MainActivity extends Activity {
 
     private void updateUi() { // TODO: graph analysis (~bar graph)
         if(paused) return;
-        analysis.setText(interpreter.getAnalysis().toString());
+        analysisText.setText(interpreter.getAnalysis().toString());
+        analysisView.updateAnalysis(interpreter.getAnalysis());
         Pitch pitch = pitchDetector.getCurrentPitch();
         if(pitch!=null) {
-            debugStatus.setText(""+pitch.toString());
+            debugStatus.setText(Html.fromHtml("<i>" + pitch.toString() + "</i>"));
             tunerView.displayPitch(pitch);
         }
-        else debugStatus.setText("No pitch detected");
+        else debugStatus.setText(Html.fromHtml("<i>" + "No pitch detected" + "</i>"));
         // Update graph
         updateGraph();
     }
@@ -100,8 +103,10 @@ public class MainActivity extends Activity {
 
     private void initUi() {
         graph = (GraphView) findViewById(R.id.graph);
-        analysis = (TextView) findViewById(R.id.analysis);
-        analysis.setMovementMethod(new ScrollingMovementMethod());
+        analysisText = (TextView) findViewById(R.id.analysis_text);
+        analysisText.setMovementMethod(new ScrollingMovementMethod());
+        analysisText.scrollTo(0, 3500);
+        analysisView = (AnalysisView) findViewById(R.id.analysis);
         debugStatus = (TextView) findViewById(R.id.debug_status);
         tunerView = (TunerView) findViewById(R.id.tuner_view);
         graphButton = (Button) findViewById(R.id.graph_button);
@@ -137,5 +142,9 @@ public class MainActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public PitchDetector getPitchDetector() { return pitchDetector; }
+
+    public Interpreter getInterpreter() { return interpreter; }
     
 }
