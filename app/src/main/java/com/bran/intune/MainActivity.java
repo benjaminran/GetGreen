@@ -1,6 +1,5 @@
 package com.bran.intune;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
@@ -9,14 +8,16 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import com.kobakei.ratethisapp.RateThisApp;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends Activity {
     // UI Update Timing constants
@@ -26,30 +27,30 @@ public class MainActivity extends Activity {
     private PitchDetector pitchDetector;
     private Interpreter interpreter;
     // UI
-    private TunerView tunerView;
-    private AnalysisView analysisView;
-    private TextView analysisText;
-    private TextView debugStatus;
-    private Button graphButton;
-    private GraphView graph;
-    // Graph-specific fields
-    private LineGraphSeries<DataPoint> rawFrequencies, filteredFrequencies;
-    private int x;
-    private Boolean paused;
+    @Bind(R.id.tuner_view) protected TunerView tunerView;
+    @Bind(R.id.analysis) protected AnalysisView analysisView;
+    @Bind(R.id.analysis_text) protected TextView analysisText;
+    @Bind(R.id.debug_status) protected TextView debugStatus;
+    @Bind(R.id.graph_button) protected ToggleButton graphButton;
+//    @Bind(R.id.graph) protected Graph graph;
+    @Bind(R.id.loudness_view) protected LoudnessView loudnessView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         initUi();
+        requestRatingIfNeeded();
         pitchDetector = new PitchDetector();
-        interpreter = new Interpreter(pitchDetector);
+        interpreter = new Interpreter(this);
         interpreter.start();
         startUiUpdateLoop();
     }
 
     private void startUiUpdateLoop() {
-        prepareGraph();
+//        graph.prepareGraph();
         // Start loop
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -61,28 +62,10 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void prepareGraph() {
-        x = 0;
-        paused = false;
-        filteredFrequencies = new LineGraphSeries<DataPoint>();
-        filteredFrequencies.setColor(Color.BLACK);
-        filteredFrequencies.setTitle("Filtered Frequencies");
-        rawFrequencies = new LineGraphSeries<DataPoint>();
-        rawFrequencies.setColor(Color.LTGRAY);
-        rawFrequencies.setTitle("Raw Frequencies");
-        graph.getLegendRenderer().setVisible(true);
-        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(40);
-        graph.getViewport().setScrollable(true);
-        graph.getViewport().setScalable(true);
-        graph.addSeries(rawFrequencies);
-        graph.addSeries(filteredFrequencies);
-    }
 
-    private void updateUi() { // TODO: graph analysis (~bar graph)
-        if(paused) return;
+
+    private void updateUi() {
+        if(!graphButton.isChecked()) return;
         analysisText.setText(interpreter.getAnalysis().toString());
         analysisView.updateAnalysis(interpreter.getAnalysis());
         Pitch pitch = pitchDetector.getCurrentPitch();
@@ -92,31 +75,19 @@ public class MainActivity extends Activity {
         }
         else debugStatus.setText(Html.fromHtml("<i>" + "No pitch detected" + "</i>"));
         // Update graph
-        updateGraph();
-    }
-
-    private void updateGraph() {
-        filteredFrequencies.appendData(new DataPoint(x, pitchDetector.getFilteredFrequency()), true, 1000);
-        rawFrequencies.appendData(new DataPoint(x, pitchDetector.getRawFrequency()), true, 1000);
-        x++;
+//        graph.updateGraph();
+        loudnessView.setLoudness(-1);
     }
 
     private void initUi() {
-        graph = (GraphView) findViewById(R.id.graph);
-        analysisText = (TextView) findViewById(R.id.analysis_text);
+//        graph = (GraphView) findViewById(R.id.graph);
+//        analysisText = (TextView) findViewById(R.id.analysis_text);
         analysisText.setMovementMethod(new ScrollingMovementMethod());
         analysisText.scrollTo(0, 3500);
-        analysisView = (AnalysisView) findViewById(R.id.analysis);
-        debugStatus = (TextView) findViewById(R.id.debug_status);
-        tunerView = (TunerView) findViewById(R.id.tuner_view);
-        graphButton = (Button) findViewById(R.id.graph_button);
-        graphButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                paused = !paused;
-                graphButton.setText(paused ? "Resume" : "Pause");
-            }
-        });
+//        analysisView = (AnalysisView) findViewById(R.id.analysis);
+//        debugStatus = (TextView) findViewById(R.id.debug_status);
+//        tunerView = (TunerView) findViewById(R.id.tuner_view);
+//        graphButton = (Button) findViewById(R.id.graph_button);
     }
 
     @Override
@@ -146,5 +117,10 @@ public class MainActivity extends Activity {
     public PitchDetector getPitchDetector() { return pitchDetector; }
 
     public Interpreter getInterpreter() { return interpreter; }
+
+    private void requestRatingIfNeeded() {
+        RateThisApp.onStart(this);  // Request rating when appropriate
+        RateThisApp.showRateDialogIfNeeded(this);
+    }
     
 }

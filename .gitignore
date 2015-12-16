@@ -38,6 +38,7 @@ proguard-rules.pro
 
 # Emacs files
 *~
+*#
 
 # Keystore and credentials
 /key

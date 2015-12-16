@@ -22,7 +22,7 @@ public class TunerView extends TextView {
     }
 
     public void displayPitch(Pitch pitch) {
-        if(pitch==null) return; // TODO: hold last reading for ~5 sec without new pitch
+        if(pitch==null || pitch.getFrequency()<0) return; // TODO: freuency==-2?! TODO: hold last reading for ~5 sec without new pitch
         Boolean changed = false;
         String newNoteName = pitch.getNoteName()+pitch.getOctaveNumber();
         int newCents = pitch.getCentsSharp();

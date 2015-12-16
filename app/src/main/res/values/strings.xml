@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">InTune</string>
-
+    <string name="app_name">GetGreen</string>
     <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
 </resources>

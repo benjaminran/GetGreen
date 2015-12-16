@@ -19,8 +19,8 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //minifyEnabled true
+            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             applicationIdSuffix ".debug"
@@ -29,12 +29,13 @@ android {
 }
 
 /* Sign Release APK if credentials/keystore available */
-if (project.hasProperty('intuneKeystore') && project.hasProperty('intuneKeystorePassword') && project.hasProperty('intuneKeyAlias') && project.hasProperty('intuneKeyPassword')) {
+if (project.hasProperty('appKeystore') && project.hasProperty('appKeystorePassword') &&
+        project.hasProperty('appKeyAlias') && project.hasProperty('appKeyPassword')) {
     android.signingConfigs.release {
-        storeFile = file(intuneKeystore)
-        storePassword = intuneKeystorePassword
-        keyAlias = intuneKeyAlias
-        keyPassword = intuneKeyPassword
+        storeFile = file(project["appKeystore"])
+        storePassword = project["appKeystorePassword"]
+        keyAlias = project["appKeyAlias"]
+        keyPassword = project["appKeyPassword"]
     }
 }
 
@@ -50,4 +51,7 @@ dependencies {
     compile 'org.apache.commons:commons-math3:3.5'
     compile 'com.jjoe64:graphview:4.0.1'
     compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.kobakei:ratethisapp:0.0.4'
+    compile 'com.malinskiy:materialicons:1.0.2'
 }
