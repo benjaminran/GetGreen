@@ -34,7 +34,7 @@ public class Graph extends GraphView {
     }
 
     public void prepareGraph() {
-        graph = mainActivity.graph;
+//        graph = mainActivity.graph;
         pitchDetector = mainActivity.getPitchDetector();
 
         x = 0;
