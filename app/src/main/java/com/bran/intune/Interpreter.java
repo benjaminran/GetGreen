@@ -48,7 +48,7 @@ public class Interpreter {
             }
         }, "Interpreter Thread").start();
     }
-    public Analysis getAnalysis() { // TODO: find average and variation in centsSharp of all same-note measurements
+    public Analysis getAnalysis() {
         return analysis;
     }
 

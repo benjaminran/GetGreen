@@ -40,7 +40,7 @@ public class Pitch implements Comparable<Pitch> {
     }
 
     public static Pitch fromFrequency(double frequency) {
-        if(frequency<0) return null; // no pitch; noise TODO: freq -2?!
+        if(frequency<0) return null; // no pitch
         int note = PitchConverter.hertzToMidiKey((double) frequency);
         int centsSharp = ((int) PitchConverter.hertzToAbsoluteCent(frequency)) - 100 * note;
         return new Pitch(note, centsSharp, frequency);
@@ -60,7 +60,7 @@ public class Pitch implements Comparable<Pitch> {
     public double getFrequency() { return frequency; }
 
     public String toString() { return String.format("Note: %d; Cents Sharp: %d; Frequency: %.2f", note, centsSharp, frequency); }
-    public String getNoteName() { return (note<0) ? null : Pitch.getNoteName(note); } // TODO: note -2?!
+    public String getNoteName() { return (note<0) ? null : Pitch.getNoteName(note); }
     public int getOctaveNumber() { return Pitch.getOctaveNumber(note); }
 
     public static String getNoteName(int noteNumber) { return NOTE_NAMES[noteNumber%NOTE_NAMES.length]; }

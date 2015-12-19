@@ -23,7 +23,7 @@ public class Analysis {
     }
 
     @Override
-    public String toString() { // TODO: change to iterator
+    public String toString() {
         String info = "";
         for(int n=Pitch.BOTTOM_NOTE_MIDI; n<=Pitch.TOP_NOTE_MIDI; n++) {
             NoteStatistics data = history.get(n);
