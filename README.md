@@ -15,8 +15,3 @@ For support, questions, comments, or concerns, email <benjaminran2@gmail.com> or
 Jenkins is active at [http://52.35.114.95:8080](http://52.35.114.95:8080).
 
 
-### Build Process
-
-#### Release APK Signing
-
-
