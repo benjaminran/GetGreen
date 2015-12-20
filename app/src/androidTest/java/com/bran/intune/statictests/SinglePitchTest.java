@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
+import com.bran.intune.Analysis;
 import com.bran.intune.MainActivity;
 import com.bran.intune.Interpreter;
 import com.bran.intune.Pitch;
@@ -60,7 +61,7 @@ public class SinglePitchTest implements MediaPlayer.OnCompletionListener {
     }
 
     private void checkResults() {
-        Interpreter.Analysis analysis = interpreter.getAnalysis();
+        Analysis analysis = interpreter.getAnalysis();
 
     }
 
