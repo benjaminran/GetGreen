@@ -12,6 +12,6 @@ public class Util {
      * @param e The exception to be thrown
      */
     public static void debugCheck(boolean condition, RuntimeException e){
-        if(BuildConfig.DEBUG && condition) throw e;
+        if(BuildConfig.DEBUG && !condition) throw e;
     }
 }

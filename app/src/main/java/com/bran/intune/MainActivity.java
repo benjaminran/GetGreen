@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
     @Bind(R.id.debug_status) protected TextView debugStatus;
     @Bind(R.id.graph_button) protected ToggleButton graphButton;
 //    @Bind(R.id.graph) protected Graph graph;
-    @Bind(R.id.loudness_view) protected LoudnessView loudnessView;
+//    @Bind(R.id.loudness_view) protected LoudnessView loudnessView;
 
 
     @Override
@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
         else debugStatus.setText(Html.fromHtml("<i>" + "No pitch detected" + "</i>"));
         // Update graph
 //        graph.updateGraph();
-        loudnessView.setLoudness(-1);
+//        loudnessView.setLoudness(-1);
     }
 
     private void initUi() {

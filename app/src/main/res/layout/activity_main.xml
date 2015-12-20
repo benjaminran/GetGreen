@@ -62,11 +62,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <com.bran.intune.LoudnessView
+    <!--<com.bran.intune.LoudnessView
         android:id="@+id/loudness_view"
         android:layout_width="wrap_content"
         android:layout_height="250dp"
-        android:background="@drawable/loudness_circle" />
+        android:background="@drawable/loudness_circle" />-->
 
     <!--<IconTextView
         android:text="{zmdi-android}"
