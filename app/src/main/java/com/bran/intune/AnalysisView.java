@@ -60,7 +60,7 @@ public class AnalysisView extends LinearLayout {
             else {
                 double medianFrequency = info.getPercentile(50);
                 Pitch medianPitch = Pitch.fromFrequency(medianFrequency);
-                assert (medianPitch.getNote() == note);
+                Util.debugCheck(medianPitch.getNote() == note, new RuntimeException("Inconsistent data in PitchAnalysisView"));
                 boolean isSharp = medianPitch.getCentsSharp() > 0;
                 setText(String.format("%s%n%s%n%s",
                         isSharp ? medianPitch.getCentsSharp() : "",

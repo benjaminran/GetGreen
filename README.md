@@ -5,7 +5,7 @@ An Android application to detect patterns in a musician's intonation on his or h
 Beta release coming soon
 
 # Contact
-For support, questions, comments, or concerns, email <benjaminran2@gmail.com> or [https://github.com/benjaminran/PitchPatterns/issues/new](create a GitHub issue).
+For support, questions, comments, or concerns, email <benjaminran2@gmail.com> or [create a GitHub issue](https://github.com/benjaminran/PitchPatterns/issues/new).
 
 
 # Development
@@ -18,7 +18,5 @@ Jenkins is active at [http://52.35.114.95:8080](http://52.35.114.95:8080).
 ### Build Process
 
 #### Release APK Signing
-Keystore information for signing the release APK is specified in gradle.properties using the keys
-appKeystore, appKeystorePassword, appKeyAlias, and appKeyPassword. Builds in environments
-without access to the keystore will not fail but the release APK will be left unsigned.
+
 
