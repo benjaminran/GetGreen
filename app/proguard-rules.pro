@@ -28,3 +28,10 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
+
+#-libraryjars commons-math3-3.5.jar(!org.apache.commons.math3.geometry.euclidean.*/**)
+
+#-dontobfuscate
+
+-dontwarn org.apache.commons.math3.**
+

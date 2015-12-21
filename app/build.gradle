@@ -14,14 +14,24 @@ android {
     }
 
     signingConfigs {
-        release
+        release {
+            storeFile = file("/bad")
+            storePassword = ""
+            keyAlias = ""
+            keyPassword = ""
+        }
+        unsigned{
+            storePassword = ""
+            keyAlias = ""
+            keyPassword = ""
+        }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
-            //minifyEnabled true
-            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.unsigned
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             applicationIdSuffix ".debug"
@@ -46,6 +56,7 @@ android {
 /* Sign Release APK if credentials/keystore available */
 if (project.hasProperty('appKeystore') && project.hasProperty('appKeystorePassword') &&
         project.hasProperty('appKeyAlias') && project.hasProperty('appKeyPassword')) {
+    android.buildTypes.release.signingConfig android.signingConfigs.release
     android.signingConfigs.release {
         storeFile = file(project["appKeystore"])
         storePassword = project["appKeystorePassword"]
