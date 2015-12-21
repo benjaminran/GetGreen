@@ -20,6 +20,9 @@
 # No need to obfuscate
 -dontobfuscate
 
+# issues/6
+-dontoptimize
+
 
 # http://jakewharton.github.io/butterknife/#proguard
 -keep class butterknife.** { *; }
