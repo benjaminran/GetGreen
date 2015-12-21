@@ -47,10 +47,6 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
-    dexOptions {
-        javaMaxHeapSize "2048M"
-    }
-
 }
 
 /* Sign Release APK if credentials/keystore available */
