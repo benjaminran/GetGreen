@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -12,36 +13,45 @@
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
         <com.bran.intune.AnalysisView
             android:id="@+id/analysis"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#8888F8"/>
+            android:layout_height="wrap_content"/>
 
     </HorizontalScrollView>
 
-    <!--<com.bran.intune.Graph
+    <com.bran.intune.Graph
         android:id="@+id/graph"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_margin="16dp"
-        android:background="#dddddd" />-->
+        android:layout_margin="16dp"/>
 
     <ToggleButton android:id="@+id/graph_button"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textOff="Resume"
-        android:textOn="Pause"/>
+        android:textOff=""
+        android:textOn=""
+        android:background="@mipmap/ic_mic_black_48dp"/>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@mipmap/ic_mic_black_48dp"
+        fab:fab_colorNormal="@color/primary"
+        fab:fab_colorPressed="@color/primary_pressed"
+        fab:fab_colorRipple="@color/ripple" />
 
     <TextView
         android:id="@+id/analysis_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center"
         android:textSize="6pt"
         android:text="Analysis text"
@@ -50,6 +60,12 @@
         android:maxLines="100"/>
         <!--android:scrollbars = "vertical"
         android:maxLines="100"-->
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
 
     <TextView
         android:id="@+id/debug_status"

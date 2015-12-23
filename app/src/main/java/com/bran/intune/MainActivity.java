@@ -8,12 +8,14 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.kobakei.ratethisapp.RateThisApp;
+import com.melnykov.fab.FloatingActionButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,7 +34,7 @@ public class MainActivity extends Activity {
     @Bind(R.id.analysis_text) protected TextView analysisText;
     @Bind(R.id.debug_status) protected TextView debugStatus;
     @Bind(R.id.graph_button) protected ToggleButton graphButton;
-//    @Bind(R.id.graph) protected Graph graph;
+    @Bind(R.id.graph) protected Graph graph;
 //    @Bind(R.id.loudness_view) protected LoudnessView loudnessView;
 
 
@@ -50,7 +52,7 @@ public class MainActivity extends Activity {
     }
 
     private void startUiUpdateLoop() {
-//        graph.prepareGraph();
+        graph.prepareGraph();
         // Start loop
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -75,7 +77,7 @@ public class MainActivity extends Activity {
         }
         else debugStatus.setText(Html.fromHtml("<i>" + "No pitch detected" + "</i>"));
         // Update graph
-//        graph.updateGraph();
+        graph.updateGraph();
 //        loudnessView.setLoudness(-1);
     }
 
@@ -88,6 +90,9 @@ public class MainActivity extends Activity {
 //        debugStatus = (TextView) findViewById(R.id.debug_status);
 //        tunerView = (TunerView) findViewById(R.id.tuner_view);
 //        graphButton = (Button) findViewById(R.id.graph_button);
+        ListView listView = (ListView) findViewById(android.R.id.list);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.attachToListView(listView);
     }
 
     @Override

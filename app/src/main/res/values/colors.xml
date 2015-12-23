@@ -4,5 +4,8 @@
     <color name="transparentorange">#80F0AD4E</color>
     <color name="transparentgray">#80cccccc</color>
     <color name="transparentgreen">#8044B449</color>
+    <color name="primary">#aaaaaa</color>
+    <color name="primary_pressed">#eeeeee</color>
+    <color name="ripple">#888888</color>
 
 </resources>

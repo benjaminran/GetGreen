@@ -11,6 +11,7 @@ For support, questions, comments, or concerns, email <benjaminran2@gmail.com> or
 
 
 # Development
+See wiki for details
 
 ### Continuous Integration [![Build Status](http://52.35.114.95:8080/buildStatus/icon?job=PitchPatterns)](http://52.35.114.95:8080/job/PitchPatterns/)
 

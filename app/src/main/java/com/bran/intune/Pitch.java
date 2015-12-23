@@ -29,7 +29,7 @@ public class Pitch implements Comparable<Pitch> {
 
     private static final String[] NOTE_NAMES = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
 
-    private int note;
+    private int note;  // midi
     private int centsSharp;
     private double frequency;
 
@@ -48,7 +48,7 @@ public class Pitch implements Comparable<Pitch> {
 
     public static Pitch fromNoteMidi(double n) {
         if(n < BOTTOM_NOTE_MIDI - 0.5 || n > TOP_NOTE_MIDI + 0.5) return null;
-        double frequency = Math.pow(2, (n-A440_NOTE_PIANO)/12.0) * 440;
+        double frequency = Math.pow(2, (n-A440_NOTE_MIDI)/12.0) * 440;
         return fromFrequency(frequency);
     }
 

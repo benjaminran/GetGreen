@@ -19,7 +19,7 @@ public class Graph extends GraphView {
     private MainActivity mainActivity;
     private PitchDetector pitchDetector;
     protected Graph graph;
-    private LineGraphSeries<DataPoint> rawFrequencies, filteredFrequencies;
+    private LineGraphSeries<DataPoint> referenceFrequencies, filteredFrequencies;
     private int x;
 
     public Graph(Context context, AttributeSet attrs) {
@@ -28,22 +28,26 @@ public class Graph extends GraphView {
     }
 
     public void updateGraph() {
-        filteredFrequencies.appendData(new DataPoint(x, pitchDetector.getFilteredFrequency()), true, 1000);
-        rawFrequencies.appendData(new DataPoint(x, pitchDetector.getRawFrequency()), true, 1000);
+        double frequency = pitchDetector.getFilteredFrequency();
+        double referenceFrequency = 0;
+        if(frequency==-1) frequency = 0;
+        else referenceFrequency = Pitch.fromNoteMidi(Pitch.fromFrequency(frequency).getNote()).getFrequency();
+        filteredFrequencies.appendData(new DataPoint(x, frequency), true, 1000);
+        referenceFrequencies.appendData(new DataPoint(x, referenceFrequency), true, 1000);
         x++;
     }
 
     public void prepareGraph() {
-//        graph = mainActivity.graph;
+        graph = mainActivity.graph;
         pitchDetector = mainActivity.getPitchDetector();
 
         x = 0;
         filteredFrequencies = new LineGraphSeries<DataPoint>();
         filteredFrequencies.setColor(Color.BLACK);
-        filteredFrequencies.setTitle("Filtered Frequencies");
-        rawFrequencies = new LineGraphSeries<DataPoint>();
-        rawFrequencies.setColor(Color.LTGRAY);
-        rawFrequencies.setTitle("Raw Frequencies");
+        filteredFrequencies.setTitle("Pitch Played");
+        referenceFrequencies = new LineGraphSeries<DataPoint>();
+        referenceFrequencies.setColor(Color.LTGRAY);
+        referenceFrequencies.setTitle("True Pitch");
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
         graph.getViewport().setXAxisBoundsManual(true);
@@ -51,7 +55,9 @@ public class Graph extends GraphView {
         graph.getViewport().setMaxX(40);
         graph.getViewport().setScrollable(true);
         graph.getViewport().setScalable(true);
-        graph.addSeries(rawFrequencies);
+        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+        graph.addSeries(referenceFrequencies);
         graph.addSeries(filteredFrequencies);
     }
 }
