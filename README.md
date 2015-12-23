@@ -1,9 +1,9 @@
 # PitchPatterns
 An Android application to detect patterns in a musician's intonation on his or her instrument
 
-[comment]: <> (about)
+[//]: # (about)
 
-[comment]: <> (/about)
+[//]: # (/about)
 
 # Download
 Beta release coming soon
