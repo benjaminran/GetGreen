@@ -13,7 +13,7 @@ public class PitchTest {
     private static final int ACCURACY_THRESHOLD = 5;
 
 
-    @Test
+//    @Test
     public void testFromFrequency() throws Exception {
         // A4
         Pitch pitch1 = Pitch.fromFrequency(440f);
@@ -32,7 +32,7 @@ public class PitchTest {
         Assert.assertTrue(Math.abs(pitch3.getCentsSharp())<ACCURACY_THRESHOLD);
     }
 
-    @Test
+//    @Test
     public void testFromNoteMidi() throws Exception {
         // A4
         Pitch pitch1 = Pitch.fromNoteMidi(69);
