@@ -39,7 +39,7 @@ public class Interpreter {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if(mainActivity.graphButton.isChecked())
+                        if(mainActivity.recordButton.isChecked())
                             analysis.addPitch(pitchDetector.getCurrentPitch());
                         handler.postDelayed(this, POLL_PERIOD);
                     }

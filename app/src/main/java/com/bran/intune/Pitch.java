@@ -18,6 +18,8 @@ public class Pitch implements Comparable<Pitch> {
     public static final int A440_NOTE_MIDI = 69;
     public static final int A440_NOTE_PIANO = 49;
 
+    public static final Pitch NO_PITCH = null;
+
     private static final HashMap<Integer, Range> RANGES = new HashMap<>();
     static {
         for(int n = BOTTOM_NOTE_MIDI; n <= TOP_NOTE_MIDI; n++) {
@@ -61,10 +63,12 @@ public class Pitch implements Comparable<Pitch> {
 
     public String toString() { return String.format("Note: %d; Cents Sharp: %d; Frequency: %.2f", note, centsSharp, frequency); }
     public String getNoteName() { return (note<0) ? null : Pitch.getNoteName(note); }
+    public String getNoteLetter() { return (note<0) ? null : Pitch.getNoteName(note); }
     public int getOctaveNumber() { return Pitch.getOctaveNumber(note); }
 
-    public static String getNoteName(int noteNumber) { return NOTE_NAMES[noteNumber%NOTE_NAMES.length]; }
-    public static int getOctaveNumber(int noteNumber) { return ((int) noteNumber / NOTE_NAMES.length) - 1; }
+    public static String getNoteName(int noteNumber) { return getNoteLetter(noteNumber)+getOctaveNumber(noteNumber); }
+    public static String getNoteLetter(int noteNumber) { return NOTE_NAMES[noteNumber%NOTE_NAMES.length]; }
+    public static int getOctaveNumber(int noteNumber) { return (noteNumber / NOTE_NAMES.length) - 1; }
 
     @Override
     public int compareTo(Pitch another) {

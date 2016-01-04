@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Base application theme.
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        &lt;!&ndash; Customize your theme here. &ndash;&gt;
+        <item name="android:textColorPrimary">@color/clouds</item>
+    </style>-->
+
+    <!-- inherit from the material theme -->
+    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="android:colorPrimary">@color/wet_asphalt</item>
+        <!--<item name="android:textColor">@color/clouds</item>-->
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="android:colorPrimaryDark">#22303d</item>
+        <item name="android:actionMenuTextColor">@color/wet_asphalt</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">@color/emerald</item>
+        <item name="android:navigationBarColor">@color/wet_asphalt</item>
+    </style>
+
+</resources>

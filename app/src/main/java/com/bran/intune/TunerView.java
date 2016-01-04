@@ -21,16 +21,15 @@ public class TunerView extends TextView {
         centsDisplayed = 0;
     }
 
-    public void displayPitch(Pitch pitch) {
-        if(pitch==null || pitch.getFrequency()<0) return;
-        Boolean changed = false;
-        String newNoteName = pitch.getNoteName()+pitch.getOctaveNumber();
-        int newCents = pitch.getCentsSharp();
-        if(!newNoteName.equals(noteNameDisplayed) || newCents!=centsDisplayed) changed = true;
-        if(changed==true) {
-            noteNameDisplayed = newNoteName;
-            centsDisplayed = newCents;
-            setText(Html.fromHtml(String.format("<b>%s</b> <i>%s%d</i>", noteNameDisplayed, (centsDisplayed<0) ? "-" : "+", Math.abs(centsDisplayed))));
+    public void updatePitch(Pitch pitch) {
+        if(pitch==null || pitch.getFrequency()<0) {
+            setText(Html.fromHtml("<i>" + "No pitch detected" + "</i>"));
+            return;
         }
+        String newNoteName = pitch.getNoteName();
+        int newCents = pitch.getCentsSharp();
+        noteNameDisplayed = newNoteName;
+        centsDisplayed = newCents;
+        setText(Html.fromHtml(String.format("<b>%s</b> <i>%s%d</i>", noteNameDisplayed, (centsDisplayed<0) ? "-" : "+", Math.abs(centsDisplayed))));
     }
 }

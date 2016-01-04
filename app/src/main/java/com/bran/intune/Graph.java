@@ -10,11 +10,16 @@ import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import butterknife.BindColor;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by benjaminran on 12/16/15.
  */
 public class Graph extends GraphView {
+
+    private static final int VIEWPORT_SIZE = 10;
 
     private MainActivity mainActivity;
     private PitchDetector pitchDetector;
@@ -40,19 +45,18 @@ public class Graph extends GraphView {
     public void prepareGraph() {
         graph = mainActivity.graph;
         pitchDetector = mainActivity.getPitchDetector();
-
         x = 0;
         filteredFrequencies = new LineGraphSeries<DataPoint>();
-        filteredFrequencies.setColor(Color.BLACK);
+        filteredFrequencies.setColor(mainActivity.wetAsphalt);
         filteredFrequencies.setTitle("Pitch Played");
         referenceFrequencies = new LineGraphSeries<DataPoint>();
-        referenceFrequencies.setColor(Color.LTGRAY);
+        referenceFrequencies.setColor(mainActivity.emerald);
         referenceFrequencies.setTitle("True Pitch");
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(40);
+        graph.getViewport().setMaxX(VIEWPORT_SIZE);
         graph.getViewport().setScrollable(true);
         graph.getViewport().setScalable(true);
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);

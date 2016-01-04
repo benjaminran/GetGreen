@@ -1,25 +1,25 @@
 package com.bran.intune;
 
+import android.app.ActionBar;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
 import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.TypefaceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.jjoe64.graphview.series.DataPoint;
 import com.kobakei.ratethisapp.RateThisApp;
-import com.melnykov.fab.FloatingActionButton;
 
 import butterknife.Bind;
+import butterknife.BindColor;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 
 public class MainActivity extends Activity {
     // UI Update Timing constants
@@ -31,18 +31,21 @@ public class MainActivity extends Activity {
     // UI
     @Bind(R.id.tuner_view) protected TunerView tunerView;
     @Bind(R.id.analysis) protected AnalysisView analysisView;
-    @Bind(R.id.analysis_text) protected TextView analysisText;
-    @Bind(R.id.debug_status) protected TextView debugStatus;
-    @Bind(R.id.graph_button) protected ToggleButton graphButton;
+    @Bind(R.id.record_button) protected RecordButton recordButton;
+    @Bind(R.id.analysis_detail_view) protected AnalysisDetailView analysisDetailView;
     @Bind(R.id.graph) protected Graph graph;
-//    @Bind(R.id.loudness_view) protected LoudnessView loudnessView;
 
+    @BindColor(R.color.clouds) int clouds;
+    @BindColor(R.color.emerald) int emerald;
+    @BindColor(R.color.wet_asphalt) int wetAsphalt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //getActionBar().show();
         ButterKnife.bind(this);
+        colorActionBarTitle();
         initUi();
         requestRatingIfNeeded();
         pitchDetector = new PitchDetector();
@@ -64,35 +67,17 @@ public class MainActivity extends Activity {
         });
     }
 
-
-
     private void updateUi() {
-        if(!graphButton.isChecked()) return;
-        analysisText.setText(interpreter.getAnalysis().toString());
-        analysisView.updateAnalysis(interpreter.getAnalysis());
         Pitch pitch = pitchDetector.getCurrentPitch();
-        if(pitch!=null) {
-            debugStatus.setText(Html.fromHtml("<i>" + pitch.toString() + "</i>"));
-            tunerView.displayPitch(pitch);
-        }
-        else debugStatus.setText(Html.fromHtml("<i>" + "No pitch detected" + "</i>"));
+        tunerView.updatePitch(pitch);
+        if(!recordButton.isChecked()) return;
+        analysisView.updateAnalysis(interpreter.getAnalysis());
         // Update graph
         graph.updateGraph();
-//        loudnessView.setLoudness(-1);
     }
 
     private void initUi() {
-//        graph = (GraphView) findViewById(R.id.graph);
-//        analysisText = (TextView) findViewById(R.id.analysis_text);
-        analysisText.setMovementMethod(new ScrollingMovementMethod());
-        analysisText.scrollTo(0, 3500);
-//        analysisView = (AnalysisView) findViewById(R.id.analysis);
-//        debugStatus = (TextView) findViewById(R.id.debug_status);
-//        tunerView = (TunerView) findViewById(R.id.tuner_view);
-//        graphButton = (Button) findViewById(R.id.graph_button);
-        ListView listView = (ListView) findViewById(android.R.id.list);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.attachToListView(listView);
+        recordButton.registerOffCallback(analysisDetailView.updateAnalysis);
     }
 
     @Override
@@ -126,6 +111,14 @@ public class MainActivity extends Activity {
     private void requestRatingIfNeeded() {
         RateThisApp.onStart(this);  // Request rating when appropriate
         RateThisApp.showRateDialogIfNeeded(this);
+    }
+
+    private void colorActionBarTitle() {
+        SpannableString s = new SpannableString("GetGreen");
+        s.setSpan(new ForegroundColorSpan(clouds), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(new ForegroundColorSpan(emerald), 3, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(s);
     }
     
 }

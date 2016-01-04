@@ -17,7 +17,7 @@ import java.io.IOException;
 /* http://developer.android.com/training/activity-testing/activity-basic-testing.html */
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
     private MainActivity mainActivity;
-    private Button graphButton;
+    private RecordButton recordButton;
 
     private Context context;
 
@@ -34,7 +34,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super.setUp();
         setActivityInitialTouchMode(true);
         mainActivity = getActivity();
-        graphButton = (Button) mainActivity.findViewById(R.id.graph_button);
+        recordButton = (RecordButton) mainActivity.findViewById(R.id.record_button);
         context = getActivity().getApplicationContext();
     }
 
@@ -52,19 +52,12 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         final View decorView = mainActivity.getWindow().getDecorView();
 
         //Verify that the mClickMeButton is on screen
-        ViewAsserts.assertOnScreen(decorView, graphButton);
+        ViewAsserts.assertOnScreen(decorView, recordButton);
 
         //Verify width and heights
-        final ViewGroup.LayoutParams layoutParams = graphButton.getLayoutParams();
+        final ViewGroup.LayoutParams layoutParams = recordButton.getLayoutParams();
         //assertNotNull(layoutParams);
         //assertEquals(layoutParams.width, WindowManager.LayoutParams.MATCH_PARENT);
         //assertEquals(layoutParams.height, WindowManager.LayoutParams.WRAP_CONTENT);
-    }
-
-    @MediumTest
-    public void testMyFirstTestTextView_labelText() {
-        final String expected = "Pause";
-        final String actual = graphButton.getText().toString();
-        assertEquals(expected, actual);
     }
 }

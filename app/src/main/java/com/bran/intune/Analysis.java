@@ -5,20 +5,23 @@ import java.util.TreeMap;
 /**
  *
  */
-public class Analysis {
-    TreeMap<Integer, NoteStatistics> history;
+public class Analysis extends TreeMap<Integer, NoteStatistics> {
+
+    private int size;
 
     public Analysis() {
-        history = new TreeMap<Integer, NoteStatistics>();
+        super();
+        size = 0;
     }
 
     public void addPitch(Pitch newPitch) {
+        size++;
         if(newPitch==null) return;  // do not update data set if pitch is not detected
         int note = newPitch.getNote();
-        if(history.get(note)==null) history.put(note, new NoteStatistics());
+        if(get(note)==null) put(note, new NoteStatistics());
         if(note>=Pitch.BOTTOM_NOTE_MIDI && note<=Pitch.TOP_NOTE_MIDI) {
             // Add pitch to history
-            history.get(note).addValue(newPitch.getFrequency());
+            get(note).addValue(newPitch.getFrequency());
         }
     }
 
@@ -26,18 +29,17 @@ public class Analysis {
     public String toString() {
         String info = "";
         for(int n=Pitch.BOTTOM_NOTE_MIDI; n<=Pitch.TOP_NOTE_MIDI; n++) {
-            NoteStatistics data = history.get(n);
+            NoteStatistics data = get(n);
             if(data==null) continue;
             String noteName = Pitch.getNoteName(n);
-            int octaveNumber = Pitch.getOctaveNumber(n);
             long size = data.getN();
-            double q1 = data.getPercentile(25);
-            double q2 = data.getPercentile(50);
-            double q3 = data.getPercentile(75);
-            info += String.format("Note: %s%d; Count: %d; Q1: %.2f; Q2: %.2f; Q3: %.2f%n", noteName, octaveNumber, size, q1, q2, q3);
+            int q1 = data.getQ1().getCentsSharp();
+            int q2 = data.getQ2().getCentsSharp();
+            int q3 = data.getQ3().getCentsSharp();
+            info += String.format("Note: %s; Count: %d; Q1: %d; Q2: %d; Q3: %d%n", noteName, size, q1, q2, q3);
         }
         return info;
     }
 
-    public TreeMap<Integer, NoteStatistics> getHistory() { return history; }
+    public int size() { return size; }
 }

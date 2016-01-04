@@ -2,6 +2,7 @@ package com.bran.intune;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +14,15 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import java.util.List;
 import java.util.TreeMap;
 
+import butterknife.BindColor;
+import butterknife.ButterKnife;
+
 /**
  *
  */
 public class AnalysisView extends LinearLayout {
+
+    @BindColor(R.color.clouds) protected int clouds;
     private Context context;
     private Analysis currentAnalysis;
 
@@ -24,22 +30,22 @@ public class AnalysisView extends LinearLayout {
         super(context, attrs);
         this.context = context;
         this.setOrientation(HORIZONTAL);
+        ButterKnife.bind(this);
+        updateAnalysis(new Analysis());  // display empty analysis at start
     }
 
     public void updateAnalysis(Analysis analysis) {
         currentAnalysis = analysis;
-        TreeMap<Integer, NoteStatistics> history = currentAnalysis.getHistory();
-
-        if(getChildCount() > 0) removeAllViews();  // remove any children
-
+        removeAllViews();
         for(int i=Pitch.BOTTOM_NOTE_MIDI; i<=Pitch.TOP_NOTE_MIDI; i++) {  // repopulate with children
-            addView(new PitchAnalysisView(i, history.get(i)));
+            if(analysis.get(i)!=null)
+                addView(new PitchAnalysisView(i, analysis.get(i)));
         }
     }
 
-    private class PitchAnalysisView extends TextView {
+    private class PitchAnalysisView extends LinearLayout {
         private int note;
-        private DescriptiveStatistics info;
+        private NoteStatistics info;
 
         public PitchAnalysisView(int note, NoteStatistics info) {
             super(context);
@@ -49,26 +55,42 @@ public class AnalysisView extends LinearLayout {
         }
 
         private void init() {
-            this.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-            this.setPadding(15,15,15,15);
+            setOrientation(VERTICAL);
+            setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+            setPadding(15, 15, 15, 15);
             //this.setMinimumWidth(300);
             //this.setBackgroundColor(Color.argb(0, 0, 0, 128));
 
+            TextView noteView = new TextView(context);
+            TextView centsSharp = new TextView(context);
+            TextView spreadView = new TextView(context);
+
+            noteView.setTextColor(clouds);
+            centsSharp.setTextColor(clouds);
+            spreadView.setTextColor(clouds);
+
             if(info == null || Double.isNaN(info.getPercentile(50))) {  // no data
-                setText(String.format("%n-%n"));
+                noteView.setText("");
+                centsSharp.setText("");
+                spreadView.setText("");
             }
             else {
                 double medianFrequency = info.getPercentile(50);
                 Pitch medianPitch = Pitch.fromFrequency(medianFrequency);
                 Util.debugCheck(medianPitch.getNote() == note, new RuntimeException("Inconsistent data in PitchAnalysisView"));
-                boolean isSharp = medianPitch.getCentsSharp() > 0;
-                setText(String.format("%s%n%s%n%s",
-                        isSharp ? medianPitch.getCentsSharp() : "",
-                        medianPitch.getNoteName()+medianPitch.getOctaveNumber(),
-                        isSharp ? "" : medianPitch.getCentsSharp()
-                ));
-                // TODO: prioritize pitches displayed by sorting by amount played (dataset size) and how out of tune they are
+                noteView.setText(medianPitch.getNoteName());
+                centsSharp.setText("" + medianPitch.getCentsSharp());
+                int spread = info.getCentsIQR();
+                spreadView.setText("" + spread + "%");
             }
+
+            addView(noteView);
+            addView(centsSharp);
+            addView(spreadView);
+
+            TextView count = new TextView(context);
+            count.setText(""+info.getN());
+            addView(count);
         }
     }
 }
