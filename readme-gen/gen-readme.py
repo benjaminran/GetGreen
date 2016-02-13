@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import re
 
-source='README.md'
+source='readme-source.md'
 title='../media/listing/title'
 shortdescription='../media/listing/short-description'
 fulldescription='../media/listing/full-description'
