@@ -2,6 +2,7 @@
 import re
 
 source='readme-source.md'
+dest='../README.md'
 title='../media/listing/title'
 shortdescription='../media/listing/short-description'
 fulldescription='../media/listing/full-description'
@@ -16,4 +17,4 @@ readme = open(source, 'r').read()
 readme = re.sub(tag('title'), '# '+readfile(title), readme)
 readme = re.sub(tag('short-description'), readfile(shortdescription), readme)
 readme = re.sub(tag('full-description'), readfile(fulldescription),readme)
-print(readme)
+open(dest,'w').write(readme)
