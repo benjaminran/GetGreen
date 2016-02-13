@@ -8,8 +8,10 @@ Beta release of GetGreen - Intonation analysis for musicians
 GetGreen is a tool for musicians that listens to your playing and finds the notes most commonly played out of tune or inconsistently. Statistical measures of center and spread are applied to every note you play then aggregated into appropriate categories. Development is ongoing.
 
 # Download
-GetGreen is available on Google Play.
+GetGreen is available on Google Play
+[img]()
 
+<a href="https://play.google.com/store/apps/details?id=com.bran.getgreen&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" src="../media/graphics/play-badge/google-play-badge.png" /></a>
 
 # Contact
 For support, questions, comments, or concerns, email <getgreen@benjaminran.com> or [create a GitHub issue](https://github.com/benjaminran/PitchPatterns/issues/new).
