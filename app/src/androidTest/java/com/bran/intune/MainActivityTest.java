@@ -1,4 +1,4 @@
-package com.bran.intune;
+package com.bran.getgreen;
 
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
@@ -6,13 +6,8 @@ import android.test.ViewAsserts;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.bran.intune.MainActivity;
-import com.bran.intune.R;
-import com.bran.intune.statictests.SinglePitchTest;
-
-import java.io.IOException;
+import com.bran.getgreen.statictests.SinglePitchTest;
 
 /* http://developer.android.com/training/activity-testing/activity-basic-testing.html */
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {

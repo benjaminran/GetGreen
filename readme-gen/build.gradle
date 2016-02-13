@@ -1,0 +1,3 @@
+genreadme {
+    commandLine 'gen-readme.sh'
+}

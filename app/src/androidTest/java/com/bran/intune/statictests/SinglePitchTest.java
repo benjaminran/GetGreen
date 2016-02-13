@@ -1,17 +1,15 @@
-package com.bran.intune.statictests;
+package com.bran.getgreen.statictests;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
-import com.bran.intune.Analysis;
-import com.bran.intune.MainActivity;
-import com.bran.intune.Interpreter;
-import com.bran.intune.Pitch;
+import com.bran.getgreen.Analysis;
+import com.bran.getgreen.MainActivity;
+import com.bran.getgreen.Interpreter;
+import com.bran.getgreen.Pitch;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.Assert.fail;
 import static org.hamcrest.MatcherAssert.assertThat;
