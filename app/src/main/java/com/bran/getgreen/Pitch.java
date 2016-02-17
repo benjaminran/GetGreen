@@ -1,8 +1,8 @@
 package com.bran.getgreen;
 
-import java.util.HashMap;
-
 import be.tarsos.dsp.util.PitchConverter;
+
+import java.util.HashMap;
 
 /**
  * Represents information about the pitch heard by the Tuner
