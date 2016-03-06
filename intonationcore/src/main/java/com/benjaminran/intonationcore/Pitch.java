@@ -6,20 +6,25 @@ public class Pitch implements Comparable<Pitch> {
 
     private double absoluteCents;
     private double frequency;
+    private long time;
 
-    public Pitch(double absoluteCents, double frequency) {
+    public Pitch(double absoluteCents, double frequency, long time) {
         this.absoluteCents = absoluteCents;
         this.frequency = frequency;
+        this.time = time;
     }
 
-    public static Pitch fromFrequency(double frequency) {
-        return new Pitch(PitchConverter.hertzToAbsoluteCent(frequency), frequency);
+    public static Pitch fromFrequency(double frequency, long time) {
+        return new Pitch(PitchConverter.hertzToAbsoluteCent(frequency), frequency, time);
     }
 
     @Override
     public int compareTo(Pitch another) {
-        if(frequency<another.frequency) return -1;
-        if(frequency>another.frequency) return 1;
-        return 0;
+        return Double.compare(frequency,another.frequency);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%fHz", frequency);
     }
 }
