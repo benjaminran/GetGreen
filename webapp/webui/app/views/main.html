@@ -1,0 +1,12 @@
+<div class="container">
+
+  <form role="form" name="recordingForm" ng-submit="analyzeRecording()" novalidate>
+    <div class="row">
+      <input type="file" id="fileinput" class="col-lg-4 col-md-6 col-sm-12" ng-model="recordingFile" accept="audio/*"/>
+      <audio controls ngf-src="recordingFile" class="col-lg-3 col-md-6 col-sm-12"></audio>
+      <button type="submit" class="col-lg-4 col-md-6 col-sm-12 btn btn-default">Go</button>
+    </div>
+
+  </form>
+
+</div>
