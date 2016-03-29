@@ -28,6 +28,8 @@ tasks.withType(FindBugs) {
 tasks.withType(Test) {
     systemProperty 'chartsDir', chartsDir
     mkdir(chartsDir)
+    maxHeapSize = "16g"
+    jvmArgs '-XX:MaxPermSize=1g'
 }
 
 jar {
