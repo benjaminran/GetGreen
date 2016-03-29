@@ -23,7 +23,7 @@ public class Performance {
         notes.add(note);
     }
 
-    public List getNotes() {
+    public List<Note> getNotes() {
         return notes;
     }
 

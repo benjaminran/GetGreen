@@ -6,16 +6,28 @@ public class Pitch implements Comparable<Pitch> {
 
     private double absoluteCents;
     private double frequency;
-    private long time;
+    private double time;
 
-    public Pitch(double absoluteCents, double frequency, long time) {
+    public Pitch(double absoluteCents, double frequency, double time) {
         this.absoluteCents = absoluteCents;
         this.frequency = frequency;
         this.time = time;
     }
 
-    public static Pitch fromFrequency(double frequency, long time) {
+    public static Pitch fromFrequency(double frequency, double time) {
         return new Pitch(PitchConverter.hertzToAbsoluteCent(frequency), frequency, time);
+    }
+
+    public int getNoteNumber() {
+        return (int) Math.floor(absoluteCents/100);
+    }
+
+    public double getFrequency() {
+        return frequency;
+    }
+
+    public double getAbsoluteCents() {
+        return absoluteCents;
     }
 
     @Override
@@ -25,6 +37,6 @@ public class Pitch implements Comparable<Pitch> {
 
     @Override
     public String toString() {
-        return String.format("%fHz", frequency);
+        return String.format("%fc", absoluteCents);
     }
 }
